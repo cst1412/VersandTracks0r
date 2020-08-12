@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject HttpClient Http
+@using Versandtracks0rBlazor.Models
+
+@if(data != null)
+{
+<div>
+    <MainList dataSource="@data"></MainList>
+</div>
+}
+else{
+   <p><em>Loading...</em></p>
+}
+
+
+@code{
+    public List<Models.Shipment> data = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        @* this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>("sample-data/weather.json"); *@
+            this.data = this.Tempdata();
+    }
+
+    private List<Models.Shipment> Tempdata()
+    {
+        List<Models.Shipment> temp = new List<Models.Shipment>();
+        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "01465034571217" });
+        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09445609292421" });
+        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "152711970276" });
+        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09446480518845" });
+        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09445682641265" });
+        return temp;
+    }
+}

@@ -1,0 +1,19 @@
+@inject HttpClient Http
+
+<div class="container-main-list">
+@foreach (var item in dataSource)
+{
+    <div>
+        <p>@item.Comment @item.TrackingId</p>
+    </div>
+}
+
+</div>
+
+
+
+@code{
+[Parameter]
+public List<Models.Shipment> dataSource {get;set;}
+
+}
