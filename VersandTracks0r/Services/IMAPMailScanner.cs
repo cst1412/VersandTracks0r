@@ -12,11 +12,11 @@ namespace VersandTracks0r.Services
 {
     public class IMAPMailScanner
     {
-        private readonly Regex dhl = new Regex(@"(\ |\ )(\d{20}|JD\d{18}|JJD\d{18})");
-        private readonly Regex ups = new Regex(@"(\ |\ )(1Z\w{16})");
-        private readonly Regex amazon = new Regex(@"(\ |\ )(A\w{2}\d{9})", RegexOptions.IgnoreCase);
-        private readonly Regex dpd = new Regex(@"(\ |\ )(0\d{13})");
-        private readonly Regex hermes = new Regex(@"(\ |\ )(\d{14})");
+        private readonly Regex dhl = new Regex(@"(\d{20}|JD\d{18}|JJD\d{18})");
+        private readonly Regex ups = new Regex(@"(1Z\w{16})");
+        private readonly Regex amazon = new Regex(@"(A\w{2}\d{9})", RegexOptions.IgnoreCase);
+        private readonly Regex dpd = new Regex(@"(0\d{13})");
+        private readonly Regex hermes = new Regex(@"(\d{14})");
         private readonly AppSettings appSettings;
         
         private DateTime lastScan = DateTime.Today.Subtract(TimeSpan.FromDays(30));
@@ -44,10 +44,8 @@ namespace VersandTracks0r.Services
             var inbox = client.Inbox;
             inbox.Open(FolderAccess.ReadOnly);
             
-            var query = new DateSearchQuery(SearchTerm.DeliveredAfter, this.lastScan);
+            var result = inbox.Search(SearchQuery.DeliveredAfter(this.lastScan));
             this.lastScan = DateTime.Now.Subtract(TimeSpan.FromMinutes(5));
-
-            var result = inbox.Search(query);
 
             var messages = result.Select(id => inbox.GetMessage(id)).OrderByDescending(msg => msg.Date);
 
@@ -66,10 +64,10 @@ namespace VersandTracks0r.Services
                 var address = message.From.Mailboxes.First().Address;
                 var domain = address.Split('@').Last();
 
-                if (!text.Contains(this.appSettings.Name.ToLower()))
-                {
-                    return;
-                }
+                // if (!text.Contains(this.appSettings.Name.ToLower()))
+                // {
+                //     return;
+                // }
 
                 var shipment = new Shipment
                 {
@@ -77,34 +75,35 @@ namespace VersandTracks0r.Services
                     Comment = domain,
                 };
 
+                var test = this.dhl.Matches(text);
                 if (this.dhl.Match(text) is Match dhlMatch && dhlMatch.Success && text.Contains("dhl"))
                 {
                     shipment.Carrier = Carrier.DHL;
-                    shipment.TrackingId = dhlMatch.Groups[2].Value;
+                    shipment.TrackingId = dhlMatch.Groups[0].Value;
                     this.Found?.Invoke(shipment);
                 }
                 else if (this.ups.Match(text) is Match upsMatch && upsMatch.Success && text.Contains("ups"))
                 {
                     shipment.Carrier = Carrier.UPS;
-                    shipment.TrackingId = upsMatch.Groups[2].Value;
+                    shipment.TrackingId = upsMatch.Groups[0].Value;
                     this.Found?.Invoke(shipment);
                 }
                 else if (this.dpd.Match(text) is Match dpdMatch && dpdMatch.Success && text.Contains("dpd"))
                 {
                     shipment.Carrier = Carrier.DPD;
-                    shipment.TrackingId = dpdMatch.Groups[2].Value;
+                    shipment.TrackingId = dpdMatch.Groups[0].Value;
                     this.Found?.Invoke(shipment);
                 }
                 else if (this.hermes.Match(text) is Match hermesMatch && hermesMatch.Success && text.Contains("hermes"))
                 {
                     shipment.Carrier = Carrier.Hermes;
-                    shipment.TrackingId = hermesMatch.Groups[2].Value;
+                    shipment.TrackingId = hermesMatch.Groups[0].Value;
                     this.Found?.Invoke(shipment);
                 }
                 else if (this.amazon.Match(text) is Match amazonMatch && amazonMatch.Success && text.Contains("amazon"))
                 {
                     shipment.Carrier = Carrier.Amazon;
-                    shipment.TrackingId = amazonMatch.Groups[2].Value;
+                    shipment.TrackingId = amazonMatch.Groups[0].Value;
                     this.Found?.Invoke(shipment);
                 }
             }

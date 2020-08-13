@@ -18,18 +18,7 @@ else{
 
     protected override async Task OnInitializedAsync()
     {
-        @* this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>("sample-data/weather.json"); *@
-            this.data = this.Tempdata();
+        this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>(Util.ApiUrl + "api/Shipments");
     }
 
-    private List<Models.Shipment> Tempdata()
-    {
-        List<Models.Shipment> temp = new List<Models.Shipment>();
-        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "01465034571217" });
-        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09445609292421" });
-        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "152711970276" });
-        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09446480518845" });
-        temp.Add(new Shipment { Carrier = Carrier.DPD, CreatedAt = DateTime.Now, TrackingId = "09445682641265" });
-        return temp;
-    }
 }

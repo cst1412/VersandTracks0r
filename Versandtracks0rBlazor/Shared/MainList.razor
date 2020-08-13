@@ -1,19 +1,62 @@
-@inject HttpClient Http
+ 
+
+<div class="container-app ">
 
 <div class="container-main-list">
-@foreach (var item in dataSource)
-{
-    <div>
-        <p>@item.Comment @item.TrackingId</p>
-    </div>
-}
+    @foreach (var item in dataSource)
+    {
+        <div class="main-list-item">
+            <div class="header-main-list-item">
+                <div class="@item.Carrier.ToString().ToLower()">
+
+                </div>
+                <div>
+                    @item.Comment (@item.TrackingId)
+                </div>
+            </div>
+
+        @if(item.HasData){
+            <div class="container-shipment-history">
+                    <div>
+                        <i class="@GetShipmentStatusIcon(item)"></i>
+                    </div>
+                    <div>
+                    <div>
+                        <div class="history-time">
+                            @item.UpdatedAt.ToString("dd.mm.yyyy hh:mm") - @item.History[@item.History.Count -1].Location
+                        </div>
+                        <div class="history-message">
+                            @item.History[@item.History.Count -1].Message
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        }
+        </div>
+    }
 
 </div>
 
-
-
+</div>
 @code{
+
     [Parameter]
     public List<Models.Shipment> dataSource { get; set; }
 
+    public string GetShipmentStatusIcon(Models.Shipment item){
+         switch (item.Status) {
+            case Models.ShipmentStatus.Done:
+              return "far fa-check-circle";
+            case Models.ShipmentStatus.Transit:
+              return "fas fa-plane-departure";
+            case Models.ShipmentStatus.Delivery:
+              return "fas fa-shuttle-van";
+            case Models.ShipmentStatus.Invalid:
+              return "far fa-times-circle";
+            case Models.ShipmentStatus.Pickup:
+              return "fas fa-exclamation-circle";
+            default:
+              return "fas fa-sync-alt";
+          }
+    }
 }

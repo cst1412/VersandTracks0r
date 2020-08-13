@@ -11,7 +11,7 @@ namespace VersandTracks0r.Services
 {
     public class DHLTracker : IShipmentTracker
     {
-        private readonly string API_KEY = @"QPXUC9P7J0C0F2idkPUeriu8gevvOLUV";
+        private readonly string API_KEY;
 
         private readonly string apiUrl = @"https://api-eu.dhl.com/track/shipments?language=de&trackingNumber=";
 
@@ -19,6 +19,8 @@ namespace VersandTracks0r.Services
 
         public DHLTracker()
         {
+            AppSettings settings = new AppSettings();
+            this.API_KEY = settings.dhlAPIKey;
             this.httpClient.DefaultRequestHeaders.Add("DHL-API-Key", this.API_KEY);
         }
 

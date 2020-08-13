@@ -12,6 +12,7 @@ namespace VersandTracks0r.Models
         public string Account { get; set; }
         public string Server { get; set; }
         public string Password { get; set; }
+        public string dhlAPIKey { get; set; }
 
         public AppSettings()
         {
@@ -22,6 +23,7 @@ namespace VersandTracks0r.Models
             this.Account = json["account"].ToString();
             this.Password = json["password"].ToString();
             this.Server = json["server"].ToString();
+            this.dhlAPIKey = json ["dhlApiKey"].ToString();
 
         }
     }

@@ -33,6 +33,13 @@ namespace VersandTracks0r
             services.AddTransient<IShipmentTracker, DHLTracker>();
             services.AddTransient<IShipmentTracker, AmazonTracker>();
             services.AddTransient<IShipmentTracker, UPSTracker>();
+              services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed((host) => true);
+            }));
             services.AddControllers();
             services.AddHostedService<BackgroundTracker>();
             services.AddHostedService<BackgroundScanner>();
@@ -63,6 +70,7 @@ namespace VersandTracks0r
             app.UseFileServer();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
