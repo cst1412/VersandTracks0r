@@ -222,11 +222,12 @@ div.container-shipment-history > div:first-child{
 
 div.container-shipment-history > div:nth-child(2){
    flex:1;
+   font-size: 12px;
 }
 
 .dhl {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-size: contain;
     outline: 0;
     vertical-align: middle;
@@ -234,8 +235,8 @@ div.container-shipment-history > div:nth-child(2){
   }
 
   .dpd {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-size: contain;
     outline: 0;
     vertical-align: middle;
@@ -243,8 +244,8 @@ div.container-shipment-history > div:nth-child(2){
   }
 
   .hermes {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-size: contain;
     outline: 0;
     vertical-align: middle;
@@ -252,8 +253,8 @@ div.container-shipment-history > div:nth-child(2){
   }
 
   .amazon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-size: contain;
     background-position-y: 5px;
     outline: 0;
@@ -262,8 +263,8 @@ div.container-shipment-history > div:nth-child(2){
   }
 
   .ups {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background-size: contain;
     outline: 0;
     vertical-align: middle;
