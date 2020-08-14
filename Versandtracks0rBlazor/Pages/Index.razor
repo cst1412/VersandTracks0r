@@ -1,21 +1,43 @@
 ﻿@page "/"
 @inject HttpClient Http
 @using Versandtracks0rBlazor.Models
+<div class="container-app ">
 
 @if(data != null)
 {
-<div>
-    <MainList dataSource="@data"></MainList>
+<div class="row">
+    <div class="col-4">
+        <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
+    </div>
+    <div class="col-8">
+        @if(currentShipment != null)
+        {
+            <ShipmentDetail shipment="@currentShipment"></ShipmentDetail>
+        }
+    </div>
 </div>
 }
 else{
    <p><em>Loading...</em></p>
 }
-
+</div>
 
 @code{
     public List<Models.Shipment> data = null;
+    public Models.Shipment currentShipment = null;
 
+    private void OnItemClick(Models.Shipment shipment)
+    {
+        if (this.currentShipment.Id != shipment.Id)
+        {
+            this.currentShipment = shipment;
+
+        }
+        else
+        {
+            this.currentShipment = null;
+        }
+    }
     protected override async Task OnInitializedAsync()
     {
         this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>(Util.ApiUrl + "api/Shipments");

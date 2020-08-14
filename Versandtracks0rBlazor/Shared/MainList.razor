@@ -1,11 +1,10 @@
  
-
-<div class="container-app ">
+@inject ILogger<Index> logger
 
 <div class="container-main-list">
     @foreach (var item in dataSource)
     {
-        <div class="main-list-item">
+        <div class="main-list-item" @onclick="@(e => _onItemClick(@item))">
             <div class="header-main-list-item">
                 <div class="@item.Carrier.ToString().ToLower()">
 
@@ -18,7 +17,7 @@
         @if(item.HasData){
             <div class="container-shipment-history">
                     <div>
-                        <i class="@GetShipmentStatusIcon(item)"></i>
+                        <i class="@ShipmentUtil.GetShipmentStatusIcon(@item.Status)"></i>
                     </div>
                     <div>
                     <div>
@@ -37,26 +36,20 @@
 
 </div>
 
-</div>
+
 @code{
 
     [Parameter]
     public List<Models.Shipment> dataSource { get; set; }
 
-    public string GetShipmentStatusIcon(Models.Shipment item){
-         switch (item.Status) {
-            case Models.ShipmentStatus.Done:
-              return "far fa-check-circle";
-            case Models.ShipmentStatus.Transit:
-              return "fas fa-plane-departure";
-            case Models.ShipmentStatus.Delivery:
-              return "fas fa-shuttle-van";
-            case Models.ShipmentStatus.Invalid:
-              return "far fa-times-circle";
-            case Models.ShipmentStatus.Pickup:
-              return "fas fa-exclamation-circle";
-            default:
-              return "fas fa-sync-alt";
-          }
+    [Parameter]
+    public EventCallback<Models.Shipment> OnItemClick { get; set; }
+
+    public async Task _onItemClick(Models.Shipment shipment){
+        logger.LogDebug(shipment);
+        if(this.OnItemClick.){
+            await this.OnItemClick.InvokeAsync(shipment);
+        }
     }
+
 }
