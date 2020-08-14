@@ -6,15 +6,15 @@
 @if(data != null)
 {
 <div class="row">
-    <div class="col-4">
+    <div class="col-main-list-mobile col-4">
         <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
     </div>
-    <div class="col-8">
-        @if(selectedShipment != null)
+     @if(selectedShipment != null)
         {
-            <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
+            <div class="col-shipment-detail-mobile col-8">
+                <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
+            </div>
         }
-    </div>
 </div>
 }
 else{

@@ -11,9 +11,10 @@
                 </div>
 
             @if(shipment.HasData){
+             <div>
+
                 @foreach (var historyEntry in shipment.History)
                 {
-
                 <div class="container-shipment-history">
                         <div>
                             <i class="@ShipmentUtil.GetShipmentStatusIcon(historyEntry.Status)"></i>
@@ -21,7 +22,7 @@
                         <div>
                         <div>
                             <div class="history-time">
-                                @historyEntry.UpdatedAt.ToString("dd.mm.yyyy hh:mm") - @historyEntry.Location
+                                @historyEntry.UpdatedAt.ToString("dd.MM.yyyy hh:mm") - @historyEntry.Location
                             </div>
                             <div class="history-message">
                                 @historyEntry.Message
@@ -30,7 +31,7 @@
                         </div>
                 </div>               
                 }
-
+            </div>
                 <Leaflet history="@shipment.History"></Leaflet>
             }
             </div>

@@ -160,6 +160,7 @@ app {
     .main > div {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
+        padding-right: 1.5rem !important;
     }
 
     .navbar-toggler {
@@ -172,6 +173,17 @@ app {
     cursor: pointer;
 }
 
+
+div.container-app{
+    height: 100%;
+    > div.row{
+        height: 100%;
+        > div{
+            height: 100%;
+        }
+    }
+
+}
 
 
 div.main-list-item{
@@ -192,6 +204,21 @@ div.main-list-item-selected{
 
 }
 
+div.leaflet-map{
+    @media screen and (max-width: 950px){
+        min-height: 450px;
+    }
+    flex:1;
+  }
+
+  .trackingIcon {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 30px;
+    color: var(--orange);
+  }
+
+
+
 div.container-main-list{
     display:flex;
     flex-direction: column;
@@ -209,6 +236,41 @@ div.header-main-list-item{
         margin-right: 15px;
     }
     
+}
+
+div.col-main-list-mobile{
+    @media screen and (max-width: 950px){
+        width: 100% !important;
+        flex:0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+div.col-shipment-detail-mobile{
+    @media screen and (max-width: 950px){
+        position: fixed !important;
+        top:0;
+        bottom:0;
+        right: 0;
+        left: 0;
+        padding: 0;
+        max-width: 100%;
+        > div{
+            height: 100%;
+        }
+    }
+}
+
+
+div.shipment-detail{
+    max-height: 100%;
+    height: calc(100% - 10px);
+    overflow: auto;
+    > div{
+        height: 100%;
+        display:flex;
+        flex-direction: column;
+    }
 }
 
 div.container-shipment-history{
@@ -276,15 +338,5 @@ div.container-shipment-history{
     outline: 0;
     vertical-align: middle;
     background-image: url("/img/ups.jpg");
-  }
-
-  div.leaflet-map{
-    height: 50vh;
-  }
-
-  .trackingIcon {
-    background-color: rgba(0, 0, 0, 0);
-    font-size: 30px;
-    color: var(--orange);
   }
 
