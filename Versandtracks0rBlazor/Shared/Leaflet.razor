@@ -1,0 +1,30 @@
+@using Versandtracks0rBlazor.Models
+@inject IJSRuntime JSRuntime;
+
+
+ <div class="leaflet-map" id="leafletMap"></div>
+
+@code{
+
+    [Parameter]
+    public List<ShipmentProgress> history { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            string id = "leafletMap";
+            await JSRuntime.InvokeAsync<string>(
+                "createLeafletMap", id
+                );
+
+             await JSRuntime.InvokeAsync<string>(
+                "showPath", this.history.Where(x => x.Lat != 0 && x.Long != 0).ToList()
+                );
+        }
+
+    }
+
+    }
+
+ 

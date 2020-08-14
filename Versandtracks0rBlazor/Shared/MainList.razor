@@ -4,7 +4,11 @@
 <div class="container-main-list">
     @foreach (var item in dataSource)
     {
-        <div class="main-list-item" @onclick="@(e => _onItemClick(@item))">
+        <div 
+        class="@((@selectedShipment == null || @selectedShipment.Id != item.Id ? 
+                "main-list-item cursor-pointer" 
+                : "main-list-item-selected main-list-item cursor-pointer "))"
+                 @onclick="@(e => _onItemClick(@item))">
             <div class="header-main-list-item">
                 <div class="@item.Carrier.ToString().ToLower()">
 
@@ -38,18 +42,28 @@
 
 
 @code{
-
     [Parameter]
     public List<Models.Shipment> dataSource { get; set; }
 
     [Parameter]
     public EventCallback<Models.Shipment> OnItemClick { get; set; }
 
-    public async Task _onItemClick(Models.Shipment shipment){
-        logger.LogDebug(shipment);
-        if(this.OnItemClick.){
-            await this.OnItemClick.InvokeAsync(shipment);
+    private Models.Shipment selectedShipment = null;
+
+    public async Task _onItemClick(Models.Shipment shipment)
+    {
+        if (this.selectedShipment == null || this.selectedShipment.Id != shipment.Id)
+        {
+            this.selectedShipment = shipment;
+
         }
+        else
+        {
+            this.selectedShipment = null;
+        }
+        logger.LogDebug(shipment);
+
+        await this.OnItemClick.InvokeAsync(this.selectedShipment);
     }
 
 }

@@ -33,6 +33,7 @@
   --green: #b5bd68;
   --cyan: #8abeb7;
   --blue: #81a2be;
+  --blue-primary: #1b6ec2;
   --pink: #b294bb;
   --brown: #a3685a;
 }
@@ -158,6 +159,10 @@ app {
   }
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 div.main-list-item {
   padding: 20px;
 }
@@ -170,10 +175,13 @@ div.main-list-item:nth-child(eaven) {
   background-color: var(--bg);
 }
 
+div.main-list-item-selected {
+  background-color: var(--blue-primary) !important;
+}
+
 div.container-main-list {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 div.header-main-list-item {
@@ -256,5 +264,15 @@ div.container-shipment-history > div:nth-child(2) {
   outline: 0;
   vertical-align: middle;
   background-image: url("/img/ups.jpg");
+}
+
+div.leaflet-map {
+  height: 50vh;
+}
+
+.trackingIcon {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 30px;
+  color: var(--orange);
 }
 /*# sourceMappingURL=app.css.map */

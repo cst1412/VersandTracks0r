@@ -10,9 +10,9 @@
         <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
     </div>
     <div class="col-8">
-        @if(currentShipment != null)
+        @if(selectedShipment != null)
         {
-            <ShipmentDetail shipment="@currentShipment"></ShipmentDetail>
+            <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
         }
     </div>
 </div>
@@ -24,19 +24,11 @@ else{
 
 @code{
     public List<Models.Shipment> data = null;
-    public Models.Shipment currentShipment = null;
+    public Models.Shipment selectedShipment = null;
 
     private void OnItemClick(Models.Shipment shipment)
     {
-        if (this.currentShipment.Id != shipment.Id)
-        {
-            this.currentShipment = shipment;
-
-        }
-        else
-        {
-            this.currentShipment = null;
-        }
+        this.selectedShipment = shipment;
     }
     protected override async Task OnInitializedAsync()
     {
