@@ -5,7 +5,6 @@
  <div class="leaflet-map" id="leafletMap"></div>
 
 @code{
-
     [Parameter]
     public List<ShipmentProgress> history { get; set; }
 
@@ -18,13 +17,13 @@
                 "createLeafletMap", id
                 );
 
-             await JSRuntime.InvokeAsync<string>(
-                "showPath", this.history.Where(x => x.Lat != 0 && x.Long != 0).ToList()
-                );
+            await JSRuntime.InvokeAsync<string>(
+               "showPath", this.history.Where(x => x.Lat != 0 && x.Long != 0).ToList()
+               );
         }
 
     }
 
-    }
+}
 
  

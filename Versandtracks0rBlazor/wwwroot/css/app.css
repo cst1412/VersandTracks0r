@@ -38,14 +38,16 @@
   --brown: #a3685a;
 }
 
-html, body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-a, .btn-link {
+a,
+.btn-link {
   color: #0366d6;
 }
 
@@ -80,7 +82,8 @@ app {
   justify-content: flex-end;
 }
 
-.main .top-row > a, .main .top-row .btn-link {
+.main .top-row > a,
+.main .top-row .btn-link {
   white-space: nowrap;
   margin-left: 1.5rem;
 }
@@ -99,7 +102,7 @@ app {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.valid.modified:not([type=checkbox]) {
+.valid.modified:not([type="checkbox"]) {
   outline: 1px solid #26b050;
 }
 
@@ -137,7 +140,8 @@ app {
   .main .top-row.auth {
     justify-content: space-between;
   }
-  .main .top-row a, .main .top-row .btn-link {
+  .main .top-row a,
+  .main .top-row .btn-link {
     margin-left: 0;
   }
 }
@@ -177,7 +181,10 @@ div.container-app > div.row > div {
 }
 
 div.main-list-item {
-  padding: 20px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 div.main-list-item:nth-child(odd) {
@@ -199,6 +206,7 @@ div.leaflet-map {
 @media screen and (max-width: 950px) {
   div.leaflet-map {
     min-height: 450px;
+    margin-bottom: 20px;
   }
 }
 
@@ -227,16 +235,58 @@ div.header-main-list-item > div:nth-child(2) {
   margin-right: 15px;
 }
 
+div.col-main-list {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media screen and (min-width: 1366px) {
+  div.col-main-list {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+@media screen and (max-width: 1365px) and (min-width: 951px) {
+  div.col-main-list {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
 @media screen and (max-width: 950px) {
-  div.col-main-list-mobile {
+  div.col-main-list {
     width: 100% !important;
     flex: 0 0 100% !important;
     max-width: 100% !important;
   }
 }
 
+div.col-shipment-detail {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media screen and (min-width: 1366px) {
+  div.col-shipment-detail {
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
+}
+
+@media screen and (max-width: 1365px) and (min-width: 951px) {
+  div.col-shipment-detail {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+}
+
 @media screen and (max-width: 950px) {
-  div.col-shipment-detail-mobile {
+  div.col-shipment-detail {
     position: fixed !important;
     top: 0;
     bottom: 0;
@@ -245,21 +295,48 @@ div.header-main-list-item > div:nth-child(2) {
     padding: 0;
     max-width: 100%;
   }
-  div.col-shipment-detail-mobile > div {
+  div.col-shipment-detail > div {
     height: 100%;
   }
 }
 
 div.shipment-detail {
+  padding: 20px;
   max-height: 100%;
+  background-color: var(--bg-odd);
   height: calc(100% - 10px);
   overflow: auto;
 }
 
 div.shipment-detail > div {
-  height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (min-width: 951px) {
+  div.shipment-detail > div {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 951px) {
+  div.shipment-detail > div {
+    min-height: 100%;
+  }
+}
+
+div.shipment-detail div.header-shipment-detail {
+  display: flex;
+  flex-direction: row;
+}
+
+div.shipment-detail div.header-shipment-detail > div:nth-child(2) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 div.container-shipment-history {

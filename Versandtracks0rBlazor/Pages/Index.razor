@@ -3,23 +3,23 @@
 @using Versandtracks0rBlazor.Models
 <div class="container-app ">
 
-@if(data != null)
-{
-<div class="row">
-    <div class="col-main-list-mobile col-4">
-        <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
-    </div>
-     @if(selectedShipment != null)
-        {
-            <div class="col-shipment-detail-mobile col-8">
-                <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
+    @if(data != null)
+    {
+        <div class="row">
+            <div class="col-main-list">
+                <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
             </div>
-        }
-</div>
-}
-else{
-   <p><em>Loading...</em></p>
-}
+            @if(selectedShipment != null)
+                {
+                    <div class="col-shipment-detail">
+                        <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
+                    </div>
+                }
+        </div>
+    }
+    else{
+        <p><em>Loading...</em></p>
+    }
 </div>
 
 @code{
