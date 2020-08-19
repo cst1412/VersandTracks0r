@@ -48,7 +48,7 @@
     [Parameter]
     public EventCallback<Models.Shipment> OnItemClick { get; set; }
 
-    private Models.Shipment selectedShipment = null;
+    public Models.Shipment selectedShipment = null;
 
     public async Task _onItemClick(Models.Shipment shipment)
     {

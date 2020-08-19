@@ -7,12 +7,12 @@
     {
         <div class="row">
             <div class="col-main-list">
-                <MainList OnItemClick="@OnItemClick" dataSource="@data"></MainList>
+                <MainList @ref="mainListInstance" OnItemClick="@OnItemClick" dataSource="@data"></MainList>
             </div>
             @if(selectedShipment != null)
                 {
                     <div class="col-shipment-detail">
-                        <ShipmentDetail shipment="@selectedShipment"></ShipmentDetail>
+                        <ShipmentDetail  OnCloseClick="@onDetailCloseClick" shipment="@selectedShipment"></ShipmentDetail>
                     </div>
                 }
         </div>
@@ -25,6 +25,7 @@
 @code{
     public List<Models.Shipment> data = null;
     public Models.Shipment selectedShipment = null;
+    private MainList mainListInstance;
 
     private void OnItemClick(Models.Shipment shipment)
     {
@@ -33,6 +34,12 @@
     protected override async Task OnInitializedAsync()
     {
         this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>(Util.ApiUrl + "api/Shipments");
+    }
+
+    public void onDetailCloseClick(MouseEventArgs e)
+    {
+        this.selectedShipment = null;
+        this.mainListInstance.selectedShipment = null;
     }
 
 }

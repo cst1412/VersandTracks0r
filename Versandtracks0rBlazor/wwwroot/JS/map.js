@@ -1,6 +1,7 @@
 var map;
 
 function createLeafletMap(id) {
+  RemoveExistingMap(map);
   map = L.map(id).setView([0, 0], 12);
   L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(map);
 }
@@ -14,30 +15,32 @@ function showPath(history) {
   // checken was ist wenn 0 drin ist
   //const path = L.polyline(points, { className: 'tracking_line', snakingSpeed: 500 });
 
-  const path = L.motion
-    .polyline(
-      points,
-      {
-        className: "tracking_line",
-      },
-      {
-        easing: L.Motion.Ease.easeInOutQuart,
-        auto: true,
-        duration: 2000,
-      },
-      {
-        removeOnEnd: false,
-        icon: L.divIcon({
-          html: "<div class='material-icons trackingIcon'>🚚</div>",
-          iconSize: L.point(0, 0),
-        }),
-      }
-    )
-    .addTo(map);
+  if (points.length > 1) {
+    const path = L.motion
+      .polyline(
+        points,
+        {
+          className: "tracking_line",
+        },
+        {
+          easing: L.Motion.Ease.easeInOutQuart,
+          auto: true,
+          duration: 2000,
+        },
+        {
+          removeOnEnd: false,
+          icon: L.divIcon({
+            html: "<div class='material-icons trackingIcon'>🚚</div>",
+            iconSize: L.point(0, 0),
+          }),
+        }
+      )
+      .addTo(map);
 
-  map.addLayer(path);
-  mapItems.push(path);
+    map.addLayer(path);
+    mapItems.push(path);
 
+  }
   var start = history[0]; // lila
   var current = history[history.length - 1]; // grün
 
@@ -100,4 +103,11 @@ function showPath(history) {
 
 function formatDateTime(date_string) {
   return new Date(date_string).toLocaleString();
+}
+
+function RemoveExistingMap(mapInstance) {
+  if (mapInstance != null) {
+    mapInstance.remove();
+    mapInstance = null;
+  }
 }

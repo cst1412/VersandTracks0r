@@ -5,23 +5,36 @@
  <div class="leaflet-map" id="leafletMap"></div>
 
 @code{
-    [Parameter]
-    public List<ShipmentProgress> history { get; set; }
 
+    private List<ShipmentProgress> _history = new List<ShipmentProgress>();
+    [Parameter]
+    public List<ShipmentProgress> history
+    {
+        get
+        {
+            return this._history;
+        }
+        set
+        {
+            this._history = value;
+        }
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            string id = "leafletMap";
-            await JSRuntime.InvokeAsync<string>(
-                "createLeafletMap", id
-                );
+        await this.CreateMap();
 
-            await JSRuntime.InvokeAsync<string>(
-               "showPath", this.history.Where(x => x.Lat != 0 && x.Long != 0).ToList()
-               );
-        }
+    }
 
+    private async Task CreateMap()
+    {
+        string id = "leafletMap";
+        await JSRuntime.InvokeAsync<string>(
+            "createLeafletMap", id
+            );
+
+        await JSRuntime.InvokeAsync<string>(
+           "showPath", this.history.Where(x => x.Lat != 0 && x.Long != 0).ToList()
+           );
     }
 
 }

@@ -21,8 +21,7 @@ namespace Versandtracks0rBlazor
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddLogging(builder => builder
                     .AddBrowserConsole()
-                    .SetMinimumLevel(LogLevel.Trace)
-);
+                    .SetMinimumLevel(LogLevel.Trace));
 
             await builder.Build().RunAsync();
         }

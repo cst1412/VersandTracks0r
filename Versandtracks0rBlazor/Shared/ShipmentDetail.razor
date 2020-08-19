@@ -1,3 +1,6 @@
+@inject IJSRuntime JSRuntime;
+@inject HttpClient Http;
+
 <div class="shipment-detail">
     <div>
         <div class="header-shipment-detail">
@@ -6,6 +9,9 @@
             </div>
             <div>
                 @shipment.Comment (@shipment.TrackingId)
+            </div>
+            <div class="header-shipment-detail-controls">
+                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
             </div>
         </div>
 
@@ -32,7 +38,13 @@
             }
         </div>
         <Leaflet history="@shipment.History"></Leaflet>
+       
         }
+
+    </div>
+    <div class="container-shipment-detail-controls-mobile">
+            <div><button class="btn btn-danger" @onclick="OnDeleteClick"><i class="fas fa-trash"></i></button></div>
+            <div><button class="btn btn-primary" onclick="@OnCloseClick"><i class="fas fa-times"></i></button></div>
     </div>
 </div>
 
@@ -40,5 +52,19 @@
     [Parameter]
     public Models.Shipment shipment { get; set; }
 
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCloseClick { get; set; }
 
+    public async Task OnDeleteClick(MouseEventArgs e)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Möchten Sie den Eintrag wirklich löschen?");
+        if (confirmed)
+        {
+           var deleteResult =  this.Http.DeleteAsync(Util.ApiUrl + "api/Shipments/" + this.shipment.Id.ToString());
+           if(deleteResult.IsCompletedSuccessfully){
+               await this.OnCloseClick.InvokeAsync(null);
+           }
+          
+        }
+    }
 }
