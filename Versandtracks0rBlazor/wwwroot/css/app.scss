@@ -18,6 +18,7 @@
   --blue: #4271ae;
   --pink: #8959a8;
   --brown: #a3685a;
+  --blue-primary: #1b6ec2;
 }
 
 .dark-mode {
@@ -284,6 +285,26 @@ div.col-shipment-detail {
   }
 }
 
+@mixin container-mobile-popup-button{
+  @media screen and (max-width: 950px) {
+    position: fixed;
+    bottom: 0px;
+    z-index: 1000;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+    > div {
+      flex-basis: 50%;
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
 div.shipment-detail {
   padding: 20px;
   max-height: 100%;
@@ -304,23 +325,7 @@ div.shipment-detail {
     @media screen and (min-width: 951px) {
       display: none;
     }
-    @media screen and (max-width: 950px) {
-      position: fixed;
-      bottom: 0px;
-      z-index: 1000;
-      left: 0px;
-      right: 0px;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-
-      > div {
-        flex-basis: 50%;
-        button {
-          width: 100%;
-        }
-      }
-    }
+    @include container-mobile-popup-button;
   }
   div.header-shipment-detail {
     display: flex;
@@ -361,6 +366,72 @@ div.container-shipment-history {
   > div:nth-child(2) {
     flex: 1;
     font-size: 12px;
+  }
+}
+
+div.container-shipment-new-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-height: 100%;
+  background-color: var(--bg-items-odd);
+  height: calc(100% - 10px);
+  overflow: auto;
+  > div {
+    margin-bottom: 10px;
+    @media screen and (max-width: 950px) {
+      width: 100%;
+    }
+    @media screen and (min-width: 951px) {
+      width: 50vw;
+    }
+  }
+
+  div.container-shipment-new-carriers {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    > div {
+      @media screen and (max-width: 950px) {
+        margin-right: 10px;
+      }
+      @media screen and (min-width: 951px) {
+        margin-right: 15px;
+      }
+    }
+    > div.carrier-selected {
+      border: 4px solid var(--blue-primary);
+    }
+  }
+  div.container-shipment-new-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+
+    @include container-mobile-popup-button;
+    
+    button {
+      @media screen and (max-width: 950px) {
+        display: block;
+        flex-basis: 50%;
+        max-width: 50%;
+      }
+    }
+    button.button-save {
+      @media screen and (min-width: 951px) {
+        width: 100px;
+      }
+    }
+    button.button-close {
+      @media screen and (min-width: 951px) {
+        display: none;
+      }
+    }
   }
 }
 

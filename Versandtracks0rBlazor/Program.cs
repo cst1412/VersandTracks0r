@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Blazor.Extensions.Logging;
-
+using Versandtracks0rBlazor.Shared;
 namespace Versandtracks0rBlazor
 {
     public class Program
@@ -22,6 +22,7 @@ namespace Versandtracks0rBlazor
             builder.Services.AddLogging(builder => builder
                     .AddBrowserConsole()
                     .SetMinimumLevel(LogLevel.Trace));
+            builder.Services.AddSingleton<AppState, AppState>();
 
             await builder.Build().RunAsync();
         }

@@ -17,6 +17,7 @@
   --blue: #4271ae;
   --pink: #8959a8;
   --brown: #a3685a;
+  --blue-primary: #1b6ec2;
 }
 
 .dark-mode {
@@ -343,6 +344,7 @@ div.shipment-detail > div:not(.container-shipment-detail-controls-mobile) {
     width: 100%;
     display: flex;
     flex-direction: row;
+    margin-bottom: 0px;
   }
   div.shipment-detail div.container-shipment-detail-controls-mobile > div {
     flex-basis: 50%;
@@ -397,6 +399,105 @@ div.container-shipment-history > div:first-child {
 div.container-shipment-history > div:nth-child(2) {
   flex: 1;
   font-size: 12px;
+}
+
+div.container-shipment-new-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-height: 100%;
+  background-color: var(--bg-items-odd);
+  height: calc(100% - 10px);
+  overflow: auto;
+}
+
+div.container-shipment-new-form > div {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 950px) {
+  div.container-shipment-new-form > div {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 951px) {
+  div.container-shipment-new-form > div {
+    width: 50vw;
+  }
+}
+
+div.container-shipment-new-form div.container-shipment-new-carriers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 950px) {
+  div.container-shipment-new-form div.container-shipment-new-carriers > div {
+    margin-right: 10px;
+  }
+}
+
+@media screen and (min-width: 951px) {
+  div.container-shipment-new-form div.container-shipment-new-carriers > div {
+    margin-right: 15px;
+  }
+}
+
+div.container-shipment-new-form div.container-shipment-new-carriers > div.carrier-selected {
+  border: 4px solid var(--blue-primary);
+}
+
+div.container-shipment-new-form div.container-shipment-new-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 950px) {
+  div.container-shipment-new-form div.container-shipment-new-buttons {
+    position: fixed;
+    bottom: 0px;
+    z-index: 1000;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+  }
+  div.container-shipment-new-form div.container-shipment-new-buttons > div {
+    flex-basis: 50%;
+  }
+  div.container-shipment-new-form div.container-shipment-new-buttons > div button {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  div.container-shipment-new-form div.container-shipment-new-buttons button {
+    display: block;
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+@media screen and (min-width: 951px) {
+  div.container-shipment-new-form div.container-shipment-new-buttons button.button-save {
+    width: 100px;
+  }
+}
+
+@media screen and (min-width: 951px) {
+  div.container-shipment-new-form div.container-shipment-new-buttons button.button-close {
+    display: none;
+  }
 }
 
 .dhl {

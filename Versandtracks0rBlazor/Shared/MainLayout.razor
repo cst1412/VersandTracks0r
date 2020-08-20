@@ -1,10 +1,11 @@
 ﻿@inherits LayoutComponentBase
+@inject AppState appState
 
 <div class="main">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="order-md-0">
       <div class="navbar-nav mr-auto">
-        <button class="btn btn-primary"><i class="fas fa-plus"></i></button>
+        <button @onclick="appState.invokeOnAddButtonClicked" class="btn btn-primary"><i class="fas fa-plus"></i></button>
       </div>
     </div>
     <div class="mx-auto order-0">
@@ -21,3 +22,7 @@
     @Body
   </div>
 </div>
+
+@code{
+
+}

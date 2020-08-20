@@ -49,7 +49,6 @@
     public EventCallback<Models.Shipment> OnItemClick { get; set; }
 
     public Models.Shipment selectedShipment = null;
-
     public async Task _onItemClick(Models.Shipment shipment)
     {
         if (this.selectedShipment == null || this.selectedShipment.Id != shipment.Id)

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VersandTracks0r.Data;
 using VersandTracks0r.Models;
+using VersandTracks0r.Services;
 
 namespace VersandTracks0r.Contollers
 {
@@ -15,12 +17,14 @@ namespace VersandTracks0r.Contollers
     public class ShipmentsController : ControllerBase
     {
         private readonly AppDbContext ctx;
-        
-        public ShipmentsController(AppDbContext ctx)
+        IEnumerable<IShipmentTracker> trackers;
+
+        public ShipmentsController(AppDbContext ctx, IEnumerable<IShipmentTracker> _trackers)
         {
             //ctx.Database.ExecuteSqlRaw("PRAGMA foreign_keys=OFF;");
             //ctx.Database.ExecuteSqlRaw("PRAGMA ignore_check_constraints=true;");
             this.ctx = ctx;
+            this.trackers = _trackers;
         }
 
         // GET: api/Shipments
@@ -78,22 +82,26 @@ namespace VersandTracks0r.Contollers
                 }
             }
 
-            return NoContent();
+            return Ok(shipment);
         }
 
         // POST: api/Shipments
         [HttpPost]
-        public async Task<ActionResult<Shipment>> PostShipment([FromForm]Shipment shipment)
+        public async Task<ActionResult<Shipment>> PostShipment([FromBody] Shipment shipment)
         {
             shipment.CreatedAt = DateTime.Now;
             shipment.Manual = true;
 
             // dpd api check ob absender zu finden ist
+            var rwl = new ReaderWriterLockSlim();
 
             ctx.Shipment.Add(shipment);
+            PackageTracker.track(shipment, this.trackers, new AppSettings(), new GeoCoder());
+            rwl.EnterWriteLock();
             await ctx.SaveChangesAsync();
+            rwl.ExitWriteLock();
 
-            return Redirect("/");
+            return Ok(shipment);
         }
 
         // DELETE: api/Shipments/5
@@ -109,12 +117,16 @@ namespace VersandTracks0r.Contollers
             shipment.IsDeleted = true;
             ctx.SaveChanges();
 
-            return shipment;
+            return Ok(shipment);
         }
 
         private bool ShipmentExists(int id)
         {
             return ctx.Shipment.Any(e => e.Id == id);
+        }
+
+        private bool trackingNumberExists(string number){
+            return this.ctx.Shipment.Any(x => x.TrackingId.Trim() == number.Trim());
         }
     }
 }

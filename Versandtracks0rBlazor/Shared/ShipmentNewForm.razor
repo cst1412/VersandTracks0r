@@ -1,0 +1,66 @@
+
+@inject HttpClient Http;
+@inject ILogger<Index> log;
+@using Versandtracks0rBlazor.Models
+
+<div class="container-shipment-new-form">
+<h2>Neues Paket</h2>
+<div>
+    <label>Trackingnummer</label>
+    <input class="form-control" @bind-value="shipment.TrackingId">
+</div>
+<div>
+    <label>Name</label>
+    <input class="form-control" @bind-value="shipment.Comment">
+</div>
+<div class="container-shipment-new-carriers">
+    @foreach (var item in Enum.GetValues(typeof(Carrier)).Cast<Carrier>())
+    {
+        <div  @onclick="@(e => shipment.Carrier = item)" class="@GetCarrierClass(item)">
+
+        </div>
+    }
+</div>
+<div class="container-shipment-new-buttons">
+    <button class="btn btn-primary button-save" @onclick="@SaveShipment"><i class="fas fa-save"></i></button>
+    <button class="btn btn-danger button-close" @onclick="OnCloseClick"><i class="fas fa-times"></i></button>
+
+</div>
+</div>
+
+
+@code{
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCloseClick { get; set; }
+
+    [Parameter]
+    public EventCallback<Shipment> OnSave { get; set; }
+
+    public Shipment shipment = new Shipment();
+
+    public async Task SaveShipment()
+    {
+        var response = await this.Http.PostAsJsonAsync<Shipment>(Util.ApiUrl + "api/Shipments", this.shipment);
+        if (response.IsSuccessStatusCode)
+        {
+            await this.OnSave.InvokeAsync(await response.Content.ReadFromJsonAsync<Shipment>());
+        }
+        else
+        {
+            this.log.LogError(await response.Content.ReadAsStringAsync());
+        }
+    }
+    public string GetCarrierClass(Carrier carrier)
+    {
+        if (shipment.Carrier == carrier)
+        {
+            return "carrier-selected " + carrier.ToString().ToLower() + " cursor-pointer";
+        }
+        else
+        {
+            return carrier.ToString().ToLower() + " cursor-pointer";
+        }
+    }
+
+
+}

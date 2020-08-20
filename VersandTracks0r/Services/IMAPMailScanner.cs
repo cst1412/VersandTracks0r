@@ -4,6 +4,7 @@ using MailKit.Net.Imap;
 using MailKit.Search;
 using MimeKit;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -22,6 +23,7 @@ namespace VersandTracks0r.Services
         private readonly Regex hermes = new Regex(@"(\d{14})");
         private readonly AppSettings appSettings;
 
+        private readonly List<string> blacklist = new List<string>();
         private DateTime lastScan = DateTime.Today.Subtract(TimeSpan.FromDays(30));
 
         public event Action<Shipment> Found;
@@ -29,6 +31,8 @@ namespace VersandTracks0r.Services
         public IMAPMailScanner()
         {
             this.appSettings = new AppSettings();
+            this.blacklist.Add("twitch");
+            this.blacklist.Add("epic");
         }
 
         public void Scan()
@@ -72,9 +76,12 @@ namespace VersandTracks0r.Services
                 var address = message.From.Mailboxes.First().Address;
                 var domain = address.Split('@').Last();
 
-                if (message.Subject.Contains("MediaMarkt"))
+                foreach (string blackListEntry in this.blacklist)
                 {
-                    var d = "";
+                    if (address.Contains(blackListEntry)) ;
+                    {
+                        return;
+                    }
                 }
 
                 if (this.checkMatchesForCarriers(text, domain))
@@ -93,7 +100,7 @@ namespace VersandTracks0r.Services
                         var doc = new HtmlDocument();
                         doc.LoadHtml(group.Value);
                         var anchor = doc.DocumentNode.FirstChild;
-                        string href ="";
+                        string href = "";
                         if (anchor != null && anchor.Attributes.Count > 0 && anchor.Attributes["href"] != null)
                         {
                             href = anchor.Attributes["href"].Value;
@@ -167,7 +174,7 @@ namespace VersandTracks0r.Services
 
             }
             else if (useDetailRegex && this.dhlDetailRegex.Match(text) is Match dhlDetailRegex && dhlDetailRegex.Success
-                    && (text.Contains("sendung") || text.Contains("verfolgen") || text.Contains("track")))
+                    && (text.Contains("sendung") || text.Contains("verfolgen")))
             {
                 shipment.Carrier = Carrier.DHL;
                 shipment.TrackingId = dhlDetailRegex.Groups[0].Value;
