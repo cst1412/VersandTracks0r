@@ -2,7 +2,7 @@
 @inject HttpClient Http;
 @inject ILogger<Index> log;
 @using Versandtracks0rBlazor.Models
-
+@inject AppState appState;
 <div class="container-shipment-new-form">
 <h2>Neues Paket</h2>
 <div>
@@ -22,8 +22,16 @@
     }
 </div>
 <div class="container-shipment-new-buttons">
-    <button class="btn btn-primary button-save" @onclick="@SaveShipment"><i class="fas fa-save"></i></button>
-    <button class="btn btn-danger button-close" @onclick="OnCloseClick"><i class="fas fa-times"></i></button>
+    <button class="btn btn-primary button-save" disabled="@requestPending" @onclick="@SaveShipment">
+        @if(!requestPending){
+        <i  class="fas fa-save"></i>
+        }
+        else{
+            <i class="fas fa-circle-notch fa-spin"></i>
+        }
+        
+        </button>
+    <button class="btn btn-danger button-close" disabled="@requestPending" @onclick="OnCloseClick"><i class="fas fa-times"></i></button>
 
 </div>
 </div>
@@ -38,15 +46,23 @@
 
     public Shipment shipment = new Shipment();
 
+    public bool requestPending = false;
+
     public async Task SaveShipment()
     {
+        this.requestPending = true;
         var response = await this.Http.PostAsJsonAsync<Shipment>(Util.ApiUrl + "api/Shipments", this.shipment);
+        this.requestPending = false;
         if (response.IsSuccessStatusCode)
         {
+            appState.showToast("Eintrag erfolgreich gespeichert", Models.ToastType.Success);
+
             await this.OnSave.InvokeAsync(await response.Content.ReadFromJsonAsync<Shipment>());
         }
         else
         {
+            appState.showToast("Fehler beim Speichern des Eintrages. Versuchen Sie es später nocheinmal", Models.ToastType.Success);
+
             this.log.LogError(await response.Content.ReadAsStringAsync());
         }
     }

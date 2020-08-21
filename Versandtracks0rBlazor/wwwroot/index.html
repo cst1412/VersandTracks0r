@@ -4,12 +4,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Versandtracks0rBlazor</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Versand Tracks0r</title>
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="css/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="JS/leaflet/leaflet.css" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 </head>
 
 <body>
@@ -22,9 +27,11 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/Blazor.Extensions.Logging/blazor.extensions.logging.js" defer></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="JS/leaflet/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Igor-Vladyka/leaflet.motion/dist/leaflet.motion.min.js"></script>
     <script src="JS/map.js"></script>
+    <script src="JS/toastbar.js"></script>
 </body>
 
 </html>

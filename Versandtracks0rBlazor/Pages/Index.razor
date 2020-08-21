@@ -17,7 +17,7 @@
             @if(selectedShipment != null && !addFormVisible)
                 {
                     <div class="col-shipment-detail">
-                        <ShipmentDetail  OnCloseClick="@onDetailCloseClick" shipment="@selectedShipment"></ShipmentDetail>
+                        <ShipmentDetail  OnDelete="@onShipmentDelete" OnCloseClick="@onDetailCloseClick" shipment="@selectedShipment"></ShipmentDetail>
                     </div>
                 }
             @if(addFormVisible)
@@ -54,6 +54,7 @@
     private void OnItemClick(Models.Shipment shipment)
     {
         this.selectedShipment = shipment;
+        this.mainListInstance.selectedShipment = shipment;
         this.addFormVisible = false;
         if (shipment != null)
         {
@@ -75,7 +76,8 @@
         this.addFormVisible = false;
     }
 
-    public void onNewFormSave(Shipment shipment){
+    public void onNewFormSave(Shipment shipment)
+    {
         this.data.Add(shipment);
         this.OnItemClick(shipment);
     }
@@ -87,7 +89,15 @@
         this.mainListInstance.selectedShipment = null;
     }
 
-    private async Task loadData(){
+    public async void onShipmentDelete(Models.Shipment shipment)
+    {
+        await this.loadData();
+        this.navManager.NavigateTo("");
+
+    }
+
+    private async Task loadData()
+    {
         this.data = await Http.GetFromJsonAsync<List<Models.Shipment>>(Util.ApiUrl + "api/Shipments");
     }
 

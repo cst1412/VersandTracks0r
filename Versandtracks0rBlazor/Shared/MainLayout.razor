@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject AppState appState
+@inject IJSRuntime JSRuntime;
+@implements IDisposable
 
 <div class="main">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -17,6 +19,7 @@
       </div>
     </div>
   </nav>
+    <div id="toastbar">@currentToast?.Message</div> 
 
   <div class="content px-4">
     @Body
@@ -24,5 +27,24 @@
 </div>
 
 @code{
+  private Models.Toast currentToast = null;
+      protected override void OnInitialized()
+      {
+          this.appState.OnShowToast += this.showToast;
+      }
+
+      private async void showToast(Models.Toast toast)
+      {
+          this.currentToast = toast;
+          string value = toast.Timeout.HasValue ? toast.Timeout.Value.ToString() : null;
+          await JSRuntime.InvokeAsync<string>("showToastBar", value);
+      }
+
+      public void Dispose()
+      {
+          this.appState.OnShowToast -= this.showToast;
+   }
+
 
 }
+

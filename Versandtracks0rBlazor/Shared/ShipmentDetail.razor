@@ -1,6 +1,6 @@
 @inject IJSRuntime JSRuntime;
 @inject HttpClient Http;
-
+@inject AppState appState;
 <div class="shipment-detail">
     <div>
         <div class="header-shipment-detail">
@@ -11,7 +11,16 @@
                 @shipment.Comment (@shipment.TrackingId)
             </div>
             <div class="header-shipment-detail-controls">
-                <button @onclick="OnDeleteClick" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                <button disabled="@requestPending" @onclick="OnDeleteClick" class="btn btn-danger">
+                    @if(!requestPending){
+                    <i class="fas fa-trash"></i>
+                }
+                 else{
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                 }
+                
+                    
+                    </button>
             </div>
         </div>
 
@@ -43,8 +52,19 @@
 
     </div>
     <div class="container-shipment-detail-controls-mobile">
-            <div><button class="btn btn-danger" @onclick="OnDeleteClick"><i class="fas fa-trash"></i></button></div>
-            <div><button class="btn btn-primary" onclick="@OnCloseClick"><i class="fas fa-times"></i></button></div>
+            <div>
+                <button class="btn btn-danger" disabled="@requestPending" @onclick="OnDeleteClick">
+                @if(!requestPending){
+                <i class="fas fa-trash"></i>
+                }
+                 else{
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                 }
+                
+                </button>
+                
+            </div>
+            <div><button class="btn btn-primary" disabled="@requestPending" onclick="@OnCloseClick"><i class="fas fa-times"></i></button></div>
     </div>
 </div>
 
@@ -55,16 +75,28 @@
     [Parameter]
     public EventCallback<MouseEventArgs> OnCloseClick { get; set; }
 
+    [Parameter]
+    public EventCallback<Models.Shipment> OnDelete { get; set; }
+
+    public bool requestPending = false;
+
+
     public async Task OnDeleteClick(MouseEventArgs e)
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Möchten Sie den Eintrag wirklich löschen?");
         if (confirmed)
         {
-           var deleteResult =  this.Http.DeleteAsync(Util.ApiUrl + "api/Shipments/" + this.shipment.Id.ToString());
-           if(deleteResult.IsCompletedSuccessfully){
-               await this.OnCloseClick.InvokeAsync(null);
-           }
-          
+            this.requestPending = true;
+            var deleteResult = await this.Http.DeleteAsync(Util.ApiUrl + "api/Shipments/" + this.shipment.Id.ToString());
+            this.requestPending = false;
+            if (deleteResult.IsSuccessStatusCode)
+            {
+                appState.showToast("Eintrag erfolgreich gelöscht", Models.ToastType.Success);
+                await this.OnDelete.InvokeAsync(this.shipment);
+                await this.OnCloseClick.InvokeAsync(null);
+            }
+
+
         }
     }
 }
