@@ -341,3 +341,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 VersandTracks0r/config.json
+VersandTracks0r/shipments.db-shm
+VersandTracks0r/shipments.db-wal
