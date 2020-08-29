@@ -3,12 +3,12 @@ var map;
 function createLeafletMap(id) {
   RemoveExistingMap(map);
   map = L.map(id).setView([0, 0], 12);
-  L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(map);
+  L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(map);
 }
 
 function showPath(history) {
   console.log(history);
-  const points = history.map((e) => L.latLng(e.lat, e.long));
+  const points = history.filter(x => x.lat !== 0 && x.long !== 0).map((e) => L.latLng(e.lat, e.long));
   const mapItems = [];
   map.fitBounds(L.latLngBounds(points));
 

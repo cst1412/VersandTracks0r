@@ -8,7 +8,7 @@ namespace Versandtracks0rBlazor
 #endif
 
 #if RELEASE
-                public const string ApiUrl = "http://api.versandtracks0r.home/";
+                public const string ApiUrl = "https://api.versandtracks0r.treize1412.xyz/";
 #endif
 
 
