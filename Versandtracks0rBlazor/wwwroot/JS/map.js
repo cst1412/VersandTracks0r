@@ -10,7 +10,10 @@ function showPath(history) {
   console.log(history);
   const points = history.filter(x => x.lat !== 0 && x.long !== 0).map((e) => L.latLng(e.lat, e.long));
   const mapItems = [];
-  map.fitBounds(L.latLngBounds(points));
+  if(points && points.length > 0){
+    map.fitBounds(L.latLngBounds(points));
+  }
+ 
 
   // checken was ist wenn 0 drin ist
   //const path = L.polyline(points, { className: 'tracking_line', snakingSpeed: 500 });
