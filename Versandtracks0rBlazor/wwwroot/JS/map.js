@@ -2,7 +2,7 @@ var map;
 
 function createLeafletMap(id) {
   RemoveExistingMap(map);
-  map = L.map(id).setView([0, 0], 12);
+  map = L.map(id).setView([51.948, 10.2651], 6);
   L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(map);
 }
 

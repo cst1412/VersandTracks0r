@@ -60,6 +60,10 @@
         {
             this.navManager.NavigateTo(shipment.Id.ToString());
         }
+        else
+        {
+            this.navManager.NavigateTo("");
+        }
     }
 
     public void showAddForm(MouseEventArgs e)
@@ -87,6 +91,7 @@
     {
         this.selectedShipment = null;
         this.mainListInstance.selectedShipment = null;
+        this.navManager.NavigateTo("");
     }
 
     public async void onShipmentDelete(Models.Shipment shipment)
