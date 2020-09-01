@@ -9,18 +9,21 @@ pub fn get_shipments(conn: &PgConnection) -> Vec<ShipmentViewModel> {
     use versandtracks0r_api_rs::schema::shipmentprogress::dsl::*;
     use versandtracks0r_api_rs::schema::shipments::dsl::*;
 
-    let _results = shipments
+    let _shipments = shipments
         .filter(deleted.eq(false))
         .load::<Shipment>(conn)
         .expect("Error loading Shipments");
 
-    let ids: Vec<i32> = (&_results).into_iter().map(|i| i.id).collect::<Vec<i32>>();
+    let ids: Vec<i32> = (&_shipments)
+        .into_iter()
+        .map(|shipment| shipment.id)
+        .collect::<Vec<i32>>();
     let _shipmentprogresses = shipmentprogress
         .filter(shipment_id.eq_any(ids))
         .load::<ShipmentProgress>(conn)
         .expect("Error loading Progresses");
 
-    return _results
+    return _shipments
         .into_iter()
         .map(|item| ShipmentViewModel {
             id: item.id,
@@ -32,17 +35,18 @@ pub fn get_shipments(conn: &PgConnection) -> Vec<ShipmentViewModel> {
             updated_on: item.updated_on,
             manual_entry: item.manual_entry,
             shipment_status: item.shipment_status,
-            history: Default::default(),
+            history: get_shipment_progress_by_shipment_id(&_shipmentprogresses, item.id),
         })
-        .collect::<Vec<ShipmentViewModel>>();
+        .collect();
 }
 
 fn get_shipment_progress_by_shipment_id(
     items: &Vec<ShipmentProgress>,
-    id: &i32,
+    id: i32,
 ) -> Vec<ShipmentProgress> {
     return items
-        .into_iter()
-        .filter(|sp| sp.shipment_id.eq(id))
+        .iter()
+        .cloned()
+        .filter(|sp| sp.shipment_id.eq(&id))
         .collect();
 }
