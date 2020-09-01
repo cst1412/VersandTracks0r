@@ -343,3 +343,5 @@ healthchecksdb
 VersandTracks0r/config.json
 VersandTracks0r/shipments.db-shm
 VersandTracks0r/shipments.db-wal
+versandTracks0rApiRS/.env
+versandTracks0rApiRS/Cargo.lock
