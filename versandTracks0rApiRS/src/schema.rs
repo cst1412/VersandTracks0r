@@ -28,7 +28,4 @@ table! {
 
 joinable!(shipmentprogress -> shipments (shipment_id));
 
-allow_tables_to_appear_in_same_query!(
-    shipmentprogress,
-    shipments,
-);
+allow_tables_to_appear_in_same_query!(shipmentprogress, shipments,);

@@ -12,7 +12,7 @@ pub struct Shipment {
     pub updated_on: Option<NaiveDateTime>,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Clone)]
 pub struct ShipmentProgress {
     pub id: i32,
     pub shipment_id: i32,
@@ -24,7 +24,6 @@ pub struct ShipmentProgress {
     pub created_on: NaiveDateTime,
     pub updated_on: Option<NaiveDateTime>,
 }
-
 
 pub struct ShipmentViewModel {
     pub id: i32,
