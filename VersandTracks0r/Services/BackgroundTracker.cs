@@ -68,7 +68,7 @@ namespace VersandTracks0r.Services
                     tasks.Add(task);
                 }
                 Task.WaitAll(tasks.ToArray());
-                Thread.Sleep(5000);
+                Thread.Sleep(TimeSpan.FromMinutes(30));
             }
         }
 
