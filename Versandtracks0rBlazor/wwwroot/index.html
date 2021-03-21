@@ -1,13 +1,24 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Versand Tracks0r</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/app.css" rel="stylesheet" />
+    <script>
+        const path = window.location.pathname.split('/');
+        const base = document.getElementsByTagName('base')[0];
+        if (window.location.host.includes('localhost')) {
+            base.setAttribute('href', '/');
+        } else if (path.length > 2) {
+            base.setAttribute('href', '/' + path[1] + '/');
+        } else if (path[path.length - 1].length != 0) {
+            window.location.replace(window.location.origin + window.location.pathname + '/' + window.location.search);
+        }
+    </script>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet"/>
     <link href="css/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="JS/leaflet/leaflet.css" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
@@ -17,20 +28,19 @@
 </head>
 
 <body>
-    <app class="dark-mode">Loading...</app>
+<div id="app" class="dark-mode">Loading...</div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-    <script src="_framework/blazor.webassembly.js"></script>
-    <script src="_content/Blazor.Extensions.Logging/blazor.extensions.logging.js" defer></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
-    <script src="JS/leaflet/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Igor-Vladyka/leaflet.motion/dist/leaflet.motion.min.js"></script>
-    <script src="JS/map.js"></script>
-    <script src="JS/toastbar.js"></script>
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+<script src="_framework/blazor.webassembly.js"></script>
+<!--    <script>navigator.serviceWorker.register('service-worker.js');</script>-->
+<script src="JS/leaflet/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Igor-Vladyka/leaflet.motion/dist/leaflet.motion.min.js"></script>
+<script src="JS/map.js"></script>
+<script src="JS/toastbar.js"></script>
 </body>
 
 </html>
