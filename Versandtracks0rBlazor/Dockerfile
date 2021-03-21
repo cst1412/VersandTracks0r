@@ -1,5 +1,5 @@
  
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY Versandtracks0rBlazor.csproj .
 RUN dotnet restore "Versandtracks0rBlazor.csproj"

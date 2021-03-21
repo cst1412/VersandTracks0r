@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Blazor.Extensions.Logging;
 using Versandtracks0rBlazor.Shared;
+
 namespace Versandtracks0rBlazor
 {
     public class Program
@@ -18,10 +19,11 @@ namespace Versandtracks0rBlazor
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(
+                sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
             builder.Services.AddLogging(builder => builder
-                    .AddBrowserConsole()
-                    .SetMinimumLevel(LogLevel.Trace));
+                .AddBrowserConsole()
+                .SetMinimumLevel(LogLevel.Trace));
             builder.Services.AddSingleton<AppState, AppState>();
 
             await builder.Build().RunAsync();
